@@ -10,7 +10,6 @@ tags: wordpress
 
 ---
 
-
 Você já reparou que o WordPress redireciona automaticamente as suas URLs depois que você muda a *slug* de um post?
 
 Por exemplo, se eu estou escrevendo esse meu post e a *slug* dele é, vamos dizer, **como-impedir-redirecionamento-wordpress**, mas eu decido mudar para **como-impedir-redirecionamento-slug**, o WordPress garante que a conexão entre uma URL e a outra seja feita automaticamente.
@@ -23,19 +22,19 @@ Isso porque ele guarda, por padrão, a *slug* antiga do seu post e cria uma regr
 
 Mas esse não é o único redirecionamento que o WordPress implementa por padrão. Alguns redirecionamentos básicos já são previamente definidos pela ferramenta, com o objetivo de melhorar a experiência dos usuários e reduzir o trabalho para o gerenciador do conteúdo.
 
-A maioria é adicionada (e pode ser desativada) através do hook [template_redirect](https://developer.wordpress.org/reference/hooks/template_redirect/):
+A maioria é adicionada (e pode ser desativada) através do hook [template\_redirect](https://developer.wordpress.org/reference/hooks/template_redirect/):
 
-### wp_old_slug_redirect()
+### wp\_old\_slug\_redirect()
 
-É a função responsável pelo comportamento de redirecionamento de *slugs* explicado até agora. Ela busca nos metadados do post (que podem ser encontrados na tabela wp_postmeta) pela informação com a chave `_wp_old_slug`, que guarda a antiga *slug* do post. Feito isso, ela cria um redirecionamento da `_wp_old_slug` para a *slug* atual.
+É a função responsável pelo comportamento de redirecionamento de *slugs* explicado até agora. Ela busca nos metadados do post (que podem ser encontrados na tabela wp\_postmeta) pela informação com a chave `_wp_old_slug`, que guarda a antiga *slug* do post. Feito isso, ela cria um redirecionamento da `_wp_old_slug` para a *slug* atual.
 
 Ela é implementada como uma *action* no hook `template_redirect`, o que significa que também pode ser removida como se remove uma *action*. Você pode, por exemplo, adicionar esse código ao arquivo `functions.php` do seu tema:
 
-```
+```plaintext
 remove_action( 'template_redirect', 'wp_old_slug_redirect' );
 ```
 
-### redirect_canonical()
+### redirect\_canonical()
 
 Essa é a função responsável pela maioria dos redirecionamentos automáticos feitos pelo WordPress. [Seu principal objetivo](https://developer.wordpress.org/reference/functions/redirect_canonical/) é proteger o SEO do seu site prevenindo que URLs apenas ligeiramente diferentes (como meudominio.com/blog e meudominio.com/blog1) apontem para páginas diferentes que podem ter conteúdo duplicado.
 
@@ -43,11 +42,11 @@ Ela faz diversas verificações para redirecionar URLs escritas errado ou com o 
 
 Essa função pode ser encontrada no arquivo `canonical.php` que fica dentro de `wp-includes` e, assim como no redirecionamento anterior, para remover essa ação em todo o site é possível usar o `remove_action`.
 
-Mas nesse caso **o ideal não é desativar toda a `redirect_canonical`**, porque ela cuida de redirecionamentos importantes que caso desativados podem afetar o SEO do seu site.
+Mas nesse caso **o ideal não é desativar toda a** `redirect_canonical`, porque ela cuida de redirecionamentos importantes que caso desativados podem afetar o SEO do seu site.
 
 Por isso, para desativar esse comportamento do WordPress de tentar "adivinhar" a sua URL, você pode desativar uma função que é usada **dentro** de `redirect_canonical()`: a `redirect_guess_404_permalink()`
 
-### redirect_guess_404_permalink()
+### redirect\_guess\_404\_permalink()
 
 A `redirect_guess_404_permalink()` é chamada dentro da `redirect_canonical()`. Retirada diretamente da [documentação do WordPress](https://developer.wordpress.org/reference/functions/redirect_guess_404_permalink/), sua função é:
 
@@ -57,7 +56,7 @@ Basicamente, se o usuário tenta acessar uma página que retorna um erro 404 - N
 
 Essa função está associada ao hook `do_redirect_guess_404_permalink` e pode ser desativada ao retornar um valor falso de um filtro adicionado a [esse hook](https://developer.wordpress.org/reference/hooks/do_redirect_guess_404_permalink/):
 
-```
+```plaintext
 add_filter( 'do_redirect_guess_404_permalink', '__return_false' );
 ```
 
