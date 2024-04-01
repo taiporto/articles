@@ -1,5 +1,5 @@
 ---
-title: "Qual a diferença entre needs e dependencies no Gitlab CI? - Criando pipelines no Gitlab"
+title: "Qual a diferença entre "needs" e "dependencies" no Gitlab CI? - Criando pipelines no Gitlab"
 seoTitle: "Gitlab CI - "needs" versus "dependencies""
 seoDescription: "Entenda a diferença entre as palavras-chave "needs" e "dependencies" e descubra quando usar cada uma delas com exemplos práticos."
 datePublished: Mon Apr 01 2024 19:30:57 GMT+0000 (Coordinated Universal Time)
